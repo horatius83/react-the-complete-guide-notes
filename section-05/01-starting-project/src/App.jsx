@@ -2,6 +2,7 @@ import Header from "./components/Header"
 import CalculatorLogo from "./assets/investment-calculator-logo.png";
 import UserInput from "./components/UserInput";
 import { useState } from "react";
+import Results from "./components/Results";
 
 const initialState = {
     initialInvestment: 10000, 
@@ -28,6 +29,7 @@ function App() {
         plan={investmentPlan} 
         onUpdatePlan={handleUpdatePlan}
       ></UserInput>
+      <Results {...investmentPlan}></Results>
     </>
   )
 }

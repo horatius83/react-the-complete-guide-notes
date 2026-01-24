@@ -5,7 +5,7 @@ import { useState } from "react"
  */
 function InputGroup({label, initialValue, onUpdate}) {
     const [value, setValue] = useState(initialValue);
-    const name = label.toLocaleLowerCase().split('').join('-');
+    const name = label.toLocaleLowerCase().split(' ').join('-');
     function handleChange(event) {
         const newValue = Number(event.target.value);
         if (newValue) {
@@ -15,8 +15,9 @@ function InputGroup({label, initialValue, onUpdate}) {
     }
 
     return <div className="input-group">
-        <label for={name}>{label.toLocaleUpperCase()}</label>
-        <input type="number" name={name} value={value} onChange={handleChange}></input>
+        <label htmlFor={name}>{label.toLocaleUpperCase()}
+            <input type="number" name={name} value={value} onChange={handleChange}></input>
+        </label>
     </div>
 }
 
