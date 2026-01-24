@@ -1,9 +1,7 @@
 import { useState } from "react"
 
 /**
- * 
  * @param {{label: string, initialValue: number, onUpdate: (newValue: number) => {}}} param0 
- * @returns 
  */
 function InputGroup({label, initialValue, onUpdate}) {
     const [value, setValue] = useState(initialValue);
@@ -11,7 +9,7 @@ function InputGroup({label, initialValue, onUpdate}) {
     function handleChange(event) {
         const newValue = Number(event.target.value);
         if (newValue) {
-            setValue(() => value = newValue);
+            setValue(() => newValue);
             onUpdate(newValue);
         }
     }
@@ -22,21 +20,27 @@ function InputGroup({label, initialValue, onUpdate}) {
     </div>
 }
 
-export default function UserInput({
-    initialInitialInvestment, 
-    initialAnnualInvestment, 
-    initialExpectedReturnAsPercent,
-    initialDurationInYears
-}) {
-    const [initialInvestment, setInvestment] = useState(initialInitialInvestment);
-    const [annualInvestment, setAnnualInvestment] = useState(initialAnnualInvestment);
-    const [expectedReturnAsPercent, setExpectedReturnAsPercent] = useState(initialExpectedReturnAsPercent);
-    const [durationInYears, setDurationInYears] = useState(initialDurationInYears);
-
+export default function UserInput({plan, onUpdatePlan}) {
     return <div id="user-input">
-        <InputGroup label="Initial Investment" initialValue={initialInvestment} />
-        <InputGroup label="Annual Investment" initialValue={annualInvestment} />
-        <InputGroup label="Expected Return" initialValue={expectedReturnAsPercent} />
-        <InputGroup label="Duration" initialValue={durationInYears} />
+        <InputGroup 
+            label="Initial Investment" 
+            initialValue={plan.initialInvestment} 
+            onUpdate={(value) => onUpdatePlan({...plan, initialInvestment: value})}
+        />
+        <InputGroup 
+            label="Annual Investment" 
+            initialValue={plan.annualInvestment} 
+            onUpdate={(value) => onUpdatePlan({...plan, annualInvestment: value})}
+        />
+        <InputGroup 
+            label="Expected Return" 
+            initialValue={plan.expectedReturnAsPercent} 
+            onUpdate={(value) => onUpdatePlan({...plan, expectedReturnAsPercent: value})}
+        />
+        <InputGroup 
+            label="Duration" 
+            initialValue={plan.durationInYears} 
+            onUpdate={(value) => onUpdatePlan({...plan, durationInYears: value})}
+        />
     </div>
 }
