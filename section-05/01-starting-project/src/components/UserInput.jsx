@@ -22,7 +22,7 @@ function InputGroup({label, initialValue, onUpdate}) {
 }
 
 export default function UserInput({plan, onUpdatePlan}) {
-    return <div id="user-input">
+    return <section id="user-input">
         <InputGroup 
             label="Initial Investment" 
             initialValue={plan.initialInvestment} 
@@ -43,5 +43,5 @@ export default function UserInput({plan, onUpdatePlan}) {
             initialValue={plan.durationInYears} 
             onUpdate={(value) => onUpdatePlan({...plan, durationInYears: value})}
         />
-    </div>
+    </section>
 }
