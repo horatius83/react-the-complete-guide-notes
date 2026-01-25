@@ -16,12 +16,13 @@ export default function Results({
         && annualInvestment > 0 
         && expectedReturnAsPercent > 0
         && durationInYears > 0;
-    const results = calculateInvestmentResults({
+    console.log(`anyResults: ${anyResults}`);
+    const results = anyResults ? calculateInvestmentResults({
         initialInvestment,
         annualInvestment,
         expectedReturn: expectedReturnAsPercent,
         duration: durationInYears
-    });
+    }) : [];
     let totalInterest = 0;
     
     return (anyResults ? <table id="results">
