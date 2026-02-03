@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      <Sidebar items={projects}></Sidebar>
+      <Sidebar items={projects.map(x => x.title)}></Sidebar>
       <Content className="col-span-2" onSaveProject={handleSave}></Content>
     </div>
   );
