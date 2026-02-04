@@ -39,23 +39,27 @@ function NewProjectForm({onCancel, onSave}) {
     </form>
 }
 
-export default function Content({onSaveProject, ...props}) {
-    const [areAddingProject, setAreAddingProject] = useState(false);
-    function handleNewProject() {
-        setAreAddingProject(() => true);
-    }
-    function handleSaveNewProject(project) {
-        setAreAddingProject(() => false);
-        onSaveProject(project);
-    }
+function SelectedProject({title, description, dueDate}) {
+    return <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" readOnly value={title}></input>
+        <label for="description">Description</label>
+        <input type="text" name="description" readOnly value={description}></input>
+        <label for="date">Date</label>
+        <input type="date" name="date" readOnly value={dueDate}></input>
+    </div>
+}
 
+export default function Content({onSaveProject, onAddProject, areAddingProject, onCancel, selectedProject, ...props}) {
     return (
         <div className={props.className}>
             {!areAddingProject 
-                ? <NoProjectSelected onNewProject={handleNewProject}></NoProjectSelected>
+                ? selectedProject 
+                    ? <SelectedProject {...selectedProject} />
+                    : <NoProjectSelected onNewProject={onAddProject}></NoProjectSelected> 
                 : <NewProjectForm 
-                    onCancel={() => setAreAddingProject(() => false)}
-                    onSave={handleSaveNewProject}
+                    onCancel={onCancel}
+                    onSave={onSaveProject}
                 ></NewProjectForm>
             }
         </div>
