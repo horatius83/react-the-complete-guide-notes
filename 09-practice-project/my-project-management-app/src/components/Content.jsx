@@ -15,7 +15,8 @@ function NoProjectSelected({onNewProject}) {
 }
 
 function NewProjectForm({onCancel, onSave}) {
-    const [$title, $description, $dueDate] = [useRef(), useRef(), useRef()];
+    const [$title, $description, $dueDate, $task] = [useRef(), useRef(), useRef(), useRef()];
+    const [tasks, setTasks] = useState([]);
     function handleSave() {
         console.log('handleSave');
         const title = $title.current.value;
@@ -24,38 +25,57 @@ function NewProjectForm({onCancel, onSave}) {
         console.log(`description: ${description}`);
         const dueDate = $dueDate.current.value;
         console.log(`dueDate: ${dueDate}`);
-        onSave({title, description, dueDate});
+        onSave({title, description, dueDate, tasks: $task.current.value ? [$task.current.value, ...tasks] : tasks});
+    }
+    function handleAddTask() {
+        setTasks([$task.current.value,...tasks]);
+        $task.current.value = '';
     }
 
     return <form>
-        <button type="button" onClick={onCancel}>Cancel</button>
-        <button type="button" onClick={handleSave}>Save</button>
-        <label htmlFor="title">Title</label>
-        <input type="text" name="title" ref={$title}></input>
-        <label htmlFor="description">Description</label>
-        <input type="text" name="description" ref={$description}></input>
-        <label htmlFor="dueDate">Due Date</label>
-        <input type="date" name="dueDate" ref={$dueDate}></input>
+        <p>
+            <button type="button" onClick={onCancel}>Cancel</button>
+            <button type="button" onClick={handleSave}>Save</button>
+        </p>
+        <p>
+            <label htmlFor="title">Title</label>
+            <input type="text" name="title" ref={$title}></input>
+            <label htmlFor="description">Description</label>
+            <input type="text" name="description" ref={$description}></input>
+            <label htmlFor="dueDate">Due Date</label>
+            <input type="date" name="dueDate" ref={$dueDate}></input>
+        </p>
+        <h2>Tasks</h2>
+        {tasks.length 
+            ? <ul>{tasks.map((t,i) => <li key={i}>{t}</li>)}</ul> 
+            : <p>This project does not have any tasks yet</p>
+        }
+        <input type="text" name="task" ref={$task}></input>
+        <button type="button" onClick={handleAddTask}>Add Task</button>
     </form>
 }
 
-function SelectedProject({title, description, dueDate}) {
+function SelectedProject({title, description, dueDate, tasks, onDelete}) {
     return <div>
+        <button onClick={onDelete}>Delete</button>
         <label for="title">Title</label>
         <input type="text" name="title" readOnly value={title}></input>
         <label for="description">Description</label>
         <input type="text" name="description" readOnly value={description}></input>
         <label for="date">Date</label>
         <input type="date" name="date" readOnly value={dueDate}></input>
+        <ul>
+            {tasks.map((t,i) => <li key={i}>{t}</li>)}
+        </ul>
     </div>
 }
 
-export default function Content({onSaveProject, onAddProject, areAddingProject, onCancel, selectedProject, ...props}) {
+export default function Content({onSaveProject, onAddProject, areAddingProject, onCancel, onDeleteProject, selectedProject, ...props}) {
     return (
         <div className={props.className}>
             {!areAddingProject 
                 ? selectedProject 
-                    ? <SelectedProject {...selectedProject} />
+                    ? <SelectedProject {...selectedProject} onDelete={onDeleteProject}/>
                     : <NoProjectSelected onNewProject={onAddProject}></NoProjectSelected> 
                 : <NewProjectForm 
                     onCancel={onCancel}
