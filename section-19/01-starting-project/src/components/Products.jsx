@@ -1,20 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
+import { CartContext } from './ShoppingCartContextProvider';
 
 // pull from /meals
 export default function Products() {
     const [meals, setMeals] = useState([]);
+    const cartCtx = use(CartContext);
 
     useEffect(() => {
         async function getMeals() {
             const result = await fetch('http://localhost:3000/meals');
             if (result.ok) {
-
                 const payload = await result.json();
                 setMeals(payload);
             }
         };
         getMeals();
     }, []);
+
 
 
     if (!meals.length) {
@@ -25,8 +27,8 @@ export default function Products() {
         <div id="meals">
             {meals.length && meals.map(meal => (
                 <div className="meal-item" key={meal.id}>
-                    <img src={`http://localhost:3000/${meal.image}`} alt={meal.name}></img>
                     <article>
+                        <img src={`http://localhost:3000/${meal.image}`} alt={meal.name}></img>
                         <h3>{meal.name}</h3>
                         <div className="meal-item-description">
                             {meal.description}
@@ -35,7 +37,7 @@ export default function Products() {
                             {meal.price}
                         </div>
                         <div className="meal-item-actions">
-                            Add / Remove?
+                            <button onClick={() => cartCtx.addItem(meal)}>Add</button>
                         </div>
                     </article>
                 </div>

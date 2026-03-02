@@ -1,19 +1,17 @@
-import Logo from './assets/logo.jpg'
-import Products from './components/Products'
+import Logo from './assets/logo.jpg';
+import Products from './components/Products';
+import ShoppingCartContextProvider from './components/ShoppingCartContextProvider';
+import Header from './components/Header';
 
 function App() {
   return (
     <>
-      <div id="main-header">
-        <div id="title">
-          <img src={Logo} alt="Logo" />
-          <h1>Foody's Food Trough</h1>
-        </div>
-        <button>View Cart</button>
-      </div>
-      <main>
-        <Products></Products>
-      </main>
+      <ShoppingCartContextProvider>
+        <Header></Header>
+        <main>
+          <Products></Products>
+        </main>
+      </ShoppingCartContextProvider>
     </>
   );
 }
