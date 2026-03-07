@@ -1,18 +1,20 @@
-import Products from './components/Products';
-import ShoppingCartContextProvider from './components/ShoppingCartContextProvider';
+import Cart from './components/Cart';
+import Checkout from './components/Checkout';
 import Header from './components/Header';
+import Meals from './components/Meals';
+import { CartContextProvider } from './store/CartContext';
+import { UserProgressContextProvider } from './store/UserProgressContext';
 
 function App() {
   return (
-    <>
-      <div id="modal" />
-      <ShoppingCartContextProvider>
-        <Header></Header>
-        <main>
-          <Products></Products>
-        </main>
-      </ShoppingCartContextProvider>
-    </>
+    <UserProgressContextProvider>
+      <CartContextProvider>
+        <Header />
+        <Meals />
+        <Cart />
+        <Checkout />
+      </CartContextProvider>
+    </UserProgressContextProvider>
   );
 }
 
