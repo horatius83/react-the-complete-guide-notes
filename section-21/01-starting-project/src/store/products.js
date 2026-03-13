@@ -1,0 +1,7 @@
+export const products = [
+    {
+        title: 'Test',
+        price: 6,
+        description: 'This is a first product - amazing'
+    }
+];
