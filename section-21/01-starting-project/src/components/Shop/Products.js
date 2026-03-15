@@ -1,29 +1,33 @@
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
-import { useDispatch } from 'react-redux';
-import { cartActions } from '../../store/cart';
-import { products } from '../../store/products';
+
+const DUMMY_PRODUCTS = [
+  {
+    id: 1,
+    price: 6,
+    title: 'My First Book',
+    description: 'The first book I ever wrote'
+  },
+  {
+    id: 2,
+    price: 6,
+    title: 'My Second Book',
+    description: 'The second book I ever wrote'
+  }
+];
 
 const Products = (props) => {
-  const dispatch = useDispatch();
-
-  function handleClick(item) {
-    console.log(`addItem: ${JSON.stringify(item)}`);
-    dispatch(cartActions.addItem(item));
-  }
-
   return (
     <section className={classes.products}>
       <h2>Buy your favorite products</h2>
       <ul>
-        {products.map(product => 
-          <ProductItem 
-            key={product.name} 
-            title={product.name} 
-            price={product.price} 
-            description={product.description} 
-            onClick={() => handleClick(product)}
-          />)}
+        {DUMMY_PRODUCTS.map(product => (<ProductItem 
+          key={product.id}
+          id={product.id}
+          title={product.title} 
+          price={product.price}
+          description={product.description}
+        />))}
       </ul>
     </section>
   );
